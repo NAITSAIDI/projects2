@@ -3,21 +3,21 @@ use Proj_2;
 
 /* In this table, representing the number of beds per 1000, we created this table were we get the normalized value for each country 
 in relation to the other countries */
-create table norm_beds as
+create table if not exists  norm_beds as
 select economy, (YR2017-(select min(b2.YR2017) from beds as b2 where b2.economy in ("FRA","USA","GBR","JPN")))/(select max(b3.YR2017)-min(b3.YR2017) from beds as b3 where b3.economy in ("FRA","USA","GBR","JPN")) as normalized_beds_per_1000
 from beds
 where economy IN ("FRA","USA","GBR","JPN");
 
 /*In this table, representing the % of deaths caused by diabetes and cancer, we created this table were we get the normalized value for each country 
 in relation to the other countries */
-create table norm_mortality as
+create table if not exists norm_mortality as
 select economy, (YR2017-(select min(m2.YR2017) from `mortality_%_cancer_diabetes` as m2 where m2.economy in ("FRA","USA","GBR","JPN")))/(select max(m3.YR2017)-min(m3.YR2017) from `mortality_%_cancer_diabetes` as m3 where m3.economy in ("FRA","USA","GBR","JPN")) as normalized_mortality_rate
 from `mortality_%_cancer_diabetes`
 where economy IN ("FRA","USA","GBR","JPN");
 
 /* In this table, representing the number of nurses and midwives per 1000 people, we created this table were we get the normalized value for each country 
 in relation to the other countries*/
-create table norm_nurses as
+create table if not exists norm_nurses as
 select economy, (YR2017-(select min(n2.YR2017) from nurses_per_1000 as n2 where n2.economy in ("FRA","USA","GBR","JPN")))/(select max(n3.YR2017)-min(n3.YR2017) from nurses_per_1000 as n3 where n3.economy in ("FRA","USA","GBR","JPN")) as normalized_nurses_per_1000
 from nurses_per_1000
 where economy IN ("FRA","USA","GBR","JPN");
@@ -25,7 +25,7 @@ where economy IN ("FRA","USA","GBR","JPN");
 
 /*In this table, representing the number of doctors per 1000 people we created this table were we get the normalized value for each country 
 in relation to the other countries */
-create table norm_physicians as
+create table if not exists norm_physicians as
 select economy, (YR2017-(select min(p2.YR2017) from physicians_per_1000 as p2 where p2.economy in ("FRA","USA","GBR","JPN")))/(select max(p3.YR2017)-min(p3.YR2017) from physicians_per_1000 as p3 where p3.economy in ("FRA","USA","GBR","JPN")) as normalized_physiscians_per_1000
 from physicians_per_1000
 where economy IN ("FRA","USA","GBR","JPN");
